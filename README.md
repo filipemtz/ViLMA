@@ -1,6 +1,17 @@
 # ViLMA
 
-ViLMA: A System based on Vision Language Models for Meta-Analyses in Large Image Databases
+This is the project repository containing supplementary materials for the paper _ViLMA: A System based on Vision Language Models for Meta-Analyses in Large Image Databases_ .
+
+## Raw Results for the Evaluation of End-to-End Models
+
+This experiment evaluates if current VLMs can perform computation in multiple images in an end-to-end fashion. A subset of 64 images from each dataset are used simultaneously as input for the models. The small number of images is due to GPU memory constraints and to respect the context-length limits of all VLMs. The models used in analyses are LLaVA OV and Qwen 2.5 since LLaVA 1.6 was not trained in long sequences of images and Intern 2.5 presented the same behavior as LLaVA OV.  Results using ViLMA are also provided for comparison. The following table presents the absolute counts returned by the models.
+
+![Absolute counts](imgs/end-to-end-eval/metrics-end-to-end.png)
+
+The average error rate in relation to the ground-truth is given next. The error rate is computed by $|pred - gt| / |gt|$ and the average is over datasets.
+
+![Average Error Rate](imgs/end-to-end-eval/avg-error-rate.png)
+
 
 ## Script Generator - Prompts and Responses
 

@@ -2,6 +2,26 @@
 
 This is the project repository containing supplementary materials for the paper _ViLMA: A System based on Vision Language Models for Meta-Analyses in Large Image Databases_ .
 
+## Prompt for Image Processing
+
+**Prompt Structure:** All VLMs received the same prompts as input, each of them containing the image, the question and instructions about the expected format of answers.
+- For boolean questions, answers should be *"yes"* or *"no"*.
+- For numeric questions, the answer should be a single integer.
+- For categorical questions, the valid categories are given in the prompt along with an instruction to answer only the category name and nothing else.
+
+**Examples of questions:**
+- **boolean:** Is there a boat in the image? Respond only with one of the following options: 'yes', 'no'
+- **boolean:**  Is there a bench in the image? Respond only with - - **numerical:** How many cars are in the image? Respond only with a single integer
+- **numerical:**  How many people are in the image? Respond only with a single integer
+- **categorical:** What time of day is depicted in the image? Respond only with one of the following options: 'unknown', 'day', 'night'
+- **categorical:** What is the predominant theme of the image? Respond only with one of the following options: 'unknown', 'health', 'sports', 'nature', 'technology', 'food', 'education', 'culture', 'urban life', 'animals', 'fashion', 'family', 'travel', 'business', 'home', 'media'
+
+**Postprocessing:** The question type also govern how outputs are filtered.
+- For boolean and categorical questions, the system first checks for exact matches to one of the expected answers. If none is found, it checks if the answer starts with one the valid answers. If not, the answer is set as invalid.
+- For numeric questions, we first try to convert the answer to the integer type directly. In case of error, the system verifies if the number has been textually written (e.g., *"three"* or *"twenty two"*) and attempts to transform it into a sequence of digits before converting the type. In case of failure the answer is also set as invalid.
+
+
+
 ## Raw Results for the Evaluation of End-to-End Models
 
 This experiment evaluates if current VLMs can perform computation in multiple images in an end-to-end fashion. A subset of 64 images from each dataset are used simultaneously as input for the models. The small number of images is due to GPU memory constraints and to respect the context-length limits of all VLMs. The models used in analyses are LLaVA OV and Qwen 2.5 since LLaVA 1.6 was not trained in long sequences of images and Intern 2.5 presented the same behavior as LLaVA OV.  Results using ViLMA are also provided for comparison. The following table presents the absolute counts returned by the models.
